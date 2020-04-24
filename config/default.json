@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://nikolamiljkovic91:xxuaRViGcpXj5uNA@dlc-0-zxlob.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret": "dlcsecrettoken"
+}
