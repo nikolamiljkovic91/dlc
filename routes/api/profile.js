@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
+const path = require('path');
+const fs = require('fs');
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
@@ -115,9 +117,8 @@ router.get('/:id', auth, async (req, res) => {
 
     res.json(profile);
   } catch (err) {
-    console.log(err);
     console.error(err.message);
-    if (err.kind === 'ObjectId' || err.kind === undefined) {
+    if (err.name === 'CastError') {
       return res.status(404).json({ msg: 'Profile not found' });
     }
     res.status(500).send('Server error');
@@ -145,10 +146,168 @@ router.delete('/:id', auth, async (req, res) => {
     res.json({ msg: 'Profile removed' });
   } catch (err) {
     console.error(err.message);
-    if (err.kind === 'ObjectId' || err.kind === undefined) {
+    if (err.name === 'CastError') {
       return res.status(404).json({ msg: 'Profile not found' });
     }
-    res.status(500).send('Server error');
+    res.status(500).send('Server Error');
+  }
+});
+
+//@route    PUT api/profile/:id/photo
+//@desc     Upload photo
+//@access   Private access
+
+router.put('/:id/photo', auth, async (req, res) => {
+  try {
+    const profile = await Profile.findById(req.params.id);
+
+    if (!profile) {
+      return res.status(400).json({ msg: 'Profile not found' });
+    }
+
+    if (!req.files) {
+      return res.status(400).json({ msg: 'Please upload a file' });
+    }
+
+    const file = req.files.file;
+
+    // Make sure that image is a photo
+    if (!file.mimetype.startsWith('image')) {
+      return res.status(400).json({ msg: 'Please upload a image file' });
+    }
+
+    const maxFileSize = 1000000;
+
+    // Check file size
+    if (file.size > maxFileSize) {
+      return res
+        .status(400)
+        .json({ msg: 'Please upload a file less than 1MB' });
+    }
+
+    // Create custom file name
+    file.name = `photo_${profile.id}${Date.now()}${path.parse(file.name).ext}`;
+
+    file.mv(`./public/uploads/${file.name}`, async (err) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).json({ msg: 'Problem with file upload' });
+      }
+
+      const photo = {
+        photo: file.name,
+        user: req.user.id,
+      };
+
+      profile.photos.unshift(photo);
+
+      await profile.save();
+
+      res.json(profile);
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+//@route    PUT api/profile/:id/profilePic
+//@desc     Upload profile picture
+//@access   Private access
+
+router.put('/:id/profilePic', auth, async (req, res) => {
+  try {
+    const profile = await Profile.findById(req.params.id);
+
+    if (!profile) {
+      return res.status(400).json({ msg: 'Profile not found' });
+    }
+
+    if (!req.files) {
+      return res.status(400).json({ msg: 'Please upload a file' });
+    }
+
+    const file = req.files.file;
+
+    // Make sure that image is a photo
+    if (!file.mimetype.startsWith('image')) {
+      return res.status(400).json({ msg: 'Please upload a image file' });
+    }
+
+    const maxFileSize = 1000000;
+
+    // Check file size
+    if (file.size > maxFileSize) {
+      return res
+        .status(400)
+        .json({ msg: 'Please upload a file less than 1MB' });
+    }
+
+    // Create custom file name
+    file.name = `photo_${profile.id}${Date.now()}${path.parse(file.name).ext}`;
+
+    file.mv(`./public/uploads/${file.name}`, async (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ msg: 'Problem with file upload' });
+      }
+
+      const updated = await Profile.findByIdAndUpdate(
+        req.params.id,
+        {
+          profilePic: file.name,
+        },
+        { new: true }
+      );
+
+      res.json(updated);
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+//@route    DELETE api/profile/:id/:photo_id
+//@desc     Delete photo
+//@access   Private
+
+router.delete('/:id/:photo_id', auth, async (req, res) => {
+  try {
+    const profile = await Profile.findById(req.params.id);
+
+    // Pull photos from profile
+    const photo = profile.photos.find(
+      (photo) => photo.id === req.params.photo_id
+    );
+
+    // Make sure photo exists
+    if (!photo) {
+      return res.status(404).json({ msg: 'Photo not found' });
+    }
+
+    // Make sure user is authorized
+    if (photo.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
+    }
+
+    const removeIndex = profile.photos
+      .map((photo) => photo.id)
+      .indexOf(req.params.photo_id);
+
+    profile.photos.splice(removeIndex, 1);
+
+    await profile.save();
+
+    res.json(profile.photos);
+
+    fs.unlink(`public/uploads/${photo.photo}`, (err) => {
+      if (err) console.error(err);
+      console.log(`${photo.photo} was deleted`);
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
   }
 });
 
