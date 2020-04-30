@@ -7,7 +7,6 @@ const ProfileSchema = new mongoose.Schema({
   },
   profilePic: {
     type: String,
-    default: 'avatar',
   },
   dogName: {
     type: String,

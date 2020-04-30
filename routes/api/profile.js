@@ -77,25 +77,53 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const updatedProfile = {
-      user: req.user.id,
-      profilePic: req.body.profilePic,
-      dogName: req.body.dogName,
-      dateOfBirth: req.body.dateOfBirth,
-      gender: req.body.gender,
-      about: req.body.about,
-    };
+    // const { profilePic, dogName, dateOfBirth, gender, about } = req.body;
+
+    // const updateProfile = {
+    //   user: req.user.id,
+    //   profilePic,
+    //   dogName,
+    //   dateOfBirth,
+    //   gender,
+    //   about,
+    // };
+
+    // updateProfile.user = req.user.id;
+    // if (profilePic) updateProfile.profilePic = req.body.profilePic;
+    // if (dogName) updateProfile.dogName = req.body.dogName;
+    // if (dateOfBirth) updateProfile.dateOfBirth = req.body.dateOfBirth;
+    // if (gender) updateProfile.gender = req.body.gender;
+    // if (about) updateProfile.about = req.body.about;
+
+    // const updatedProfile = {
+    //   user: req.user.id,
+    //   profilePic: req.body.profilePic,
+    //   dogName: req.body.dogName,
+    //   dateOfBirth: req.body.dateOfBirth,
+    //   gender: req.body.gender,
+    //   about: req.body.about,
+    // };
 
     try {
-      const profile = await Profile.findOneAndUpdate(
+      let profile = await Profile.findById(req.params.id);
+      if (!profile) {
+        return res.status(400).json({ msg: 'Profile not found' });
+      }
+
+      // Make sure user is course owner
+      if (profile.user.toString() !== req.user.id) {
+        return res.status(401).json({ msg: 'User not authorized' });
+      }
+
+      profile = await Profile.findOneAndUpdate(
         { _id: req.params.id },
-        { $set: updatedProfile },
-        { new: true, upsert: true }
+        { $set: req.body },
+        { new: true }
       );
 
-      const updated = await profile.save();
+      await profile.save();
 
-      res.json(updated);
+      res.json(profile);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
