@@ -77,33 +77,6 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    // const { profilePic, dogName, dateOfBirth, gender, about } = req.body;
-
-    // const updateProfile = {
-    //   user: req.user.id,
-    //   profilePic,
-    //   dogName,
-    //   dateOfBirth,
-    //   gender,
-    //   about,
-    // };
-
-    // updateProfile.user = req.user.id;
-    // if (profilePic) updateProfile.profilePic = req.body.profilePic;
-    // if (dogName) updateProfile.dogName = req.body.dogName;
-    // if (dateOfBirth) updateProfile.dateOfBirth = req.body.dateOfBirth;
-    // if (gender) updateProfile.gender = req.body.gender;
-    // if (about) updateProfile.about = req.body.about;
-
-    // const updatedProfile = {
-    //   user: req.user.id,
-    //   profilePic: req.body.profilePic,
-    //   dogName: req.body.dogName,
-    //   dateOfBirth: req.body.dateOfBirth,
-    //   gender: req.body.gender,
-    //   about: req.body.about,
-    // };
-
     try {
       let profile = await Profile.findById(req.params.id);
       if (!profile) {
