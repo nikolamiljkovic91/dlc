@@ -71,8 +71,7 @@ input[type='submit'] {
   }
 }
 
-.SectionWrapper,
-.AuthSectionWrapper {
+.SectionWrapper {
   max-width: 1100px;
   overflow: hidden;
   padding: 0 2rem;
@@ -80,7 +79,6 @@ input[type='submit'] {
 }
 
 .AuthSectionWrapper {
-
   a,
   h1 {
     color: $yellow-color;
@@ -92,5 +90,29 @@ input[type='submit'] {
 
   .InputWrapper {
     margin: 1.2rem 0;
+  }
+}
+
+.Alert {
+  padding: 0.8rem;
+  margin: 1rem 0;
+  opacity: 0.9;
+  background: $yellow-color;
+  color: $light-color;
+}
+
+.Alert-Success {
+  background: $success-color;
+  color: $yellow-color;
+}
+
+.Alert-Danger {
+  background: $danger-color;
+  color: $yellow-color;
+}
+
+@media (max-width: 700px) {
+  .SectionWrapper {
+    margin: 7rem auto 3rem;
   }
 }
