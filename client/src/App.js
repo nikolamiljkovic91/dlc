@@ -1,3 +1,4 @@
+import './index.scss';
 import React, { Fragment, useEffect } from 'react';
 import './index.scss';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';

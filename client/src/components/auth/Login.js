@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import '../../index.scss';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signIn } from '../store/actions/auth';
@@ -53,7 +52,7 @@ const Login = ({ signIn, isAuthenticated }) => {
             onChange={onChangeHandler}
           />
         </div>
-        <input type='submit' value='Login' />
+        <input className='Button' type='submit' value='Login' />
       </form>
       <p>
         Don't have an account? <Link to='/register'>Sign Up</Link>

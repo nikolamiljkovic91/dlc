@@ -44,7 +44,7 @@ export const register = (formData) => async (dispatch) => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'Danger')));
     }
   }
 };
@@ -59,11 +59,11 @@ export const signIn = (formData) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
-  } catch (error) {
-    const errors = error.response.data.errors;
+  } catch (err) {
+    const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'Danger')));
     }
 
     dispatch({

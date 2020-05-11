@@ -5,6 +5,8 @@ import Register from '../auth/Register';
 import Login from '../auth/Login';
 import Alert from '../layout/Alert';
 import Dashboard from '../dashboard/Dashboard';
+import CreateProfile from '../profile/CreateProfile';
+import Profile from '../profile/Profile';
 
 const Routes = () => {
   return (
@@ -15,6 +17,12 @@ const Routes = () => {
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={Login} />
           <PrivateRoute exact path='/dashboard' component={Dashboard} />
+          <PrivateRoute
+            exact
+            path='/create-profile'
+            component={CreateProfile}
+          />
+          <PrivateRoute exact path='/profile/:id' component={Profile} />
         </Switch>
       </section>
     </div>

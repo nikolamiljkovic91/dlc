@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import '../../index.scss';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -81,7 +80,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             onChange={onChangeHandler}
           />
         </div>
-        <input type='submit' value='Register' />
+        <input className='Button' type='submit' value='Register' />
       </form>
       <p>
         Already have an account? <Link to='/login'>Sign In</Link>

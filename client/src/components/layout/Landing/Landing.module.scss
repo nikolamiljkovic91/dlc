@@ -1,4 +1,4 @@
-@import '../../../index.scss';
+@import '../../../colors.scss';
 
 .Landing {
     position: relative;
@@ -58,7 +58,7 @@
     }
 }
 
-@media(max-width: 700px) {
+@media (max-width: 700px) {
     .Landing {
         background: url('../../../assets/images/coverPhoto2.jpg') no-repeat center center/cover;
 
