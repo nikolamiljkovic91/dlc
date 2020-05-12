@@ -109,6 +109,8 @@ const EditProfile = ({
 
 EditProfile.propTypes = {
   updateProfile: PropTypes.func.isRequired,
+  getProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
