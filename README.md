@@ -1,21 +1,30 @@
-# DLC API
+# DLC - Dog Lovers Club
 
-> Backend API for DLC application, which is a social network app for dog lovers
+> Social network app for dog lovers
+
+DLC is a MERN stack application that includes authentication, profiles, posts, comments...
 
 ## Usage
 
 Update the values/settings of "config/default.json" to your own
 
-## Install Dependencies
+### Install server dependencies
 
-```
+```bash
 npm install
 ```
 
-## Run App
+### Install client dependencies
 
+```bash
+cd client
+npm install
 ```
-npm run server
+
+### Run both Express & React from root
+
+```bash
+npm run dev
 ```
 
 ## Demo
