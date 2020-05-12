@@ -27,8 +27,10 @@ npm install
 npm run dev
 ```
 
-## Demo
+## API
 
 Extensive documentation with examples [here](https://documenter.getpostman.com/view/4785492/SzmY8Lrd)
 
-- Author: Nikola Miljkovic
+## Author
+
+Nikola Miljkovic
