@@ -1,16 +1,35 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createProfile } from '../../store/actions/profile';
+import { updateProfile, getProfile } from '../store/actions/profile';
+import moment from 'moment';
 
-const EditProfile = ({ createProfile }) => {
+const EditProfile = ({
+  getProfile,
+  updateProfile,
+  match,
+  history,
+  profile: { loading, profile },
+}) => {
   const [formData, setFormData] = useState({
     dogName: '',
     about: '',
     dateOfBirth: '',
     gender: '',
   });
+
+  useEffect(() => {
+    if (!profile) getProfile(match.params.id);
+    if (!loading && profile) {
+      setFormData({
+        dogName: profile.dogName,
+        about: profile.about,
+        dateOfBirth: moment(profile.dateOfBirth).format('YYYY-MM-DD'),
+        gender: profile.gender,
+      });
+    }
+  }, [loading, match.params.id, getProfile, profile]);
 
   const inputHandler = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -20,13 +39,14 @@ const EditProfile = ({ createProfile }) => {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    createProfile(formData);
+    updateProfile(formData, match.params.id);
+    history.push(`/profile/${match.params.id}`);
   };
   return (
     <section className='ProfileForm'>
-      <h1>Create Profile</h1>
+      <h1>Edit Profile</h1>
       <p>
-        <i className='fas fa-paw' /> Add some info about your dog
+        <i className='fas fa-paw' /> Add some changes to dogs profile
       </p>
       <small>* = required field</small>
       <form onSubmit={onSubmitHandler}>
@@ -87,8 +107,14 @@ const EditProfile = ({ createProfile }) => {
   );
 };
 
-CreateProfile.propTypes = {
-  createProfile: PropTypes.func.isRequired,
+EditProfile.propTypes = {
+  updateProfile: PropTypes.func.isRequired,
 };
 
-export default connect(null, { createProfile })(EditProfile);
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { updateProfile, getProfile })(
+  withRouter(EditProfile)
+);
