@@ -1,5 +1,7 @@
 # DLC - Dog Lovers Club
 
+![dlc-cover](https://github.com/nikolamiljkovic91/dlc/blob/master/client/src/assets/images/dlc-cover.png)
+
 > Social network app for dog lovers
 
 DLC is a MERN stack application that includes authentication, profiles, posts, comments...
