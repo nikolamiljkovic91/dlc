@@ -134,3 +134,24 @@ export const deleteProfile = (id, history) => async (dispatch) => {
     }
   }
 };
+
+// Upload photo
+
+export const uploadPhoto = (id, photo) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/api/profile/${id}/photo`, photo);
+
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status,
+      },
+    });
+  }
+};

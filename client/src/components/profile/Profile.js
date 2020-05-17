@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { getProfile, deleteProfile } from '../store/actions/profile';
 import Spinner from '../layout/Spinner/Spinner';
 import Moment from 'react-moment';
+import ProfilePhotos from './ProfilePhotos';
 
 const Profile = ({
   getProfile,
@@ -56,6 +57,7 @@ const Profile = ({
             <p>{profile.about}</p>
           </div>
         )}
+        <ProfilePhotos photos={profile.photos} id={match.params.id} />
       </Fragment>
     )
   );

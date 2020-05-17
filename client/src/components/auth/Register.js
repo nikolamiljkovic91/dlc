@@ -21,6 +21,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     event.preventDefault();
     if (password !== password2) {
       setAlert('Passwords do not match', 'Danger');
+      console.log(setAlert);
     } else {
       console.log(formData);
       register(formData);
