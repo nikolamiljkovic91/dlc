@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Logo from '../../../assets/images/dlc-logo2.jpeg';
 import * as classes from './Navbar.module.scss';
 import PropTypes from 'prop-types';
-import { logout } from '../../store/actions/auth';
+import { logout } from '../../../store/actions/auth';
 
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (

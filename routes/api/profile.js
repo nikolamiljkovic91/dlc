@@ -189,14 +189,14 @@ router.put('/:id/photo', auth, async (req, res) => {
     // Create custom file name
     file.name = `photo_${profile.id}${Date.now()}${path.parse(file.name).ext}`;
 
-    file.mv(`./public/uploads/${file.name}`, async (err) => {
+    file.mv(`./client/public/uploads/${file.name}`, async (err) => {
       if (err) {
         console.error(err.message);
         return res.status(500).json({ msg: 'Problem with file upload' });
       }
 
       const photo = {
-        photo: file.name,
+        path: `/uploads/${file.name}`,
         user: req.user.id,
       };
 

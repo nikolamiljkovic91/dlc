@@ -7,7 +7,7 @@ import {
   CLEAR_PROFILE,
   UPDATE_PROFILE,
 } from './types';
-import { setAlert } from '../actions/alert';
+import { setAlert } from './alert';
 
 // Create profile
 

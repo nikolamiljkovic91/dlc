@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import classes from './ProfilePhotos.module.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { setAlert } from '../store/actions/alert';
-import { uploadPhoto } from '../store/actions/profile';
+import { setAlert } from '../../store/actions/alert';
+import { uploadPhoto } from '../../store/actions/profile';
 
 const ProfilePhotos = ({ setAlert, photos, uploadPhoto, id }) => {
   const [file, setFile] = useState('');
@@ -31,10 +31,19 @@ const ProfilePhotos = ({ setAlert, photos, uploadPhoto, id }) => {
   };
 
   return (
-    <>
-      <div className={classes.Photos}>
-        <h2>Photos</h2>
-      </div>
+    <Fragment>
+      {photos.length !== 0 && (
+        <div className={classes.Photos}>
+          <h2>Photos</h2>
+          <div className={classes.Gallery}>
+            {photos.map((img) => (
+              <div className={classes.ImgWrapper} key={img._id}>
+                <img src={img.path} alt='img' />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       <form onSubmit={onSubmitHandler} className={classes.Wrapper}>
         <label className={classes.UploadButton}>
           <i className='fas fa-plus'></i>
@@ -52,7 +61,7 @@ const ProfilePhotos = ({ setAlert, photos, uploadPhoto, id }) => {
           <input disabled type='submit' className='Button' />
         )}
       </form>
-    </>
+    </Fragment>
   );
 };
 

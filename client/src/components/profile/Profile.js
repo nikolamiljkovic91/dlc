@@ -5,7 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 import * as classes from './Profile.module.scss';
 import Avatar from '../../assets/images/dogAvatar.png';
 import { connect } from 'react-redux';
-import { getProfile, deleteProfile } from '../store/actions/profile';
+import { getProfile, deleteProfile } from '../../store/actions/profile';
 import Spinner from '../layout/Spinner/Spinner';
 import Moment from 'react-moment';
 import ProfilePhotos from './ProfilePhotos';

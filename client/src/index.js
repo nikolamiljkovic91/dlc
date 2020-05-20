@@ -5,7 +5,7 @@ import App from './App';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import reducers from './components/store/reducers';
+import reducers from './store/reducers';
 import thunk from 'redux-thunk';
 
 const initialState = {};

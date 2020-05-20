@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
-import Register from '../auth/Register';
-import Login from '../auth/Login';
-import Alert from '../layout/Alert';
-import Dashboard from '../dashboard/Dashboard';
-import CreateProfile from '../profile/CreateProfile';
-import Profile from '../profile/Profile';
-import EditProfile from '../profile/EditProfile';
+import Register from '../components/auth/Register';
+import Login from '../components/auth/Login';
+import Alert from '../components/layout/Alert';
+import Dashboard from '../components/dashboard/Dashboard';
+import CreateProfile from '../components/profile/CreateProfile';
+import Profile from '../components/profile/Profile';
+import EditProfile from '../components/profile/EditProfile';
 
 const Routes = () => {
   return (

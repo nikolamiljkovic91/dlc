@@ -1,12 +1,12 @@
 import React, { useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { getAuthUser } from '../store/actions/auth';
+import { getAuthUser } from '../../store/actions/auth';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Spinner from '../layout/Spinner/Spinner';
 import * as classes from './Dashboard.module.scss';
 import Profiles from '../profile/Profiles';
-import { getProfiles } from '../store/actions/profile';
+import { getProfiles } from '../../store/actions/profile';
 
 const Dashboard = ({
   auth: { loading, user },
