@@ -3,12 +3,16 @@ import classes from './ProfilePhotos.module.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setAlert } from '../../store/actions/alert';
-import { uploadPhoto } from '../../store/actions/profile';
+import { uploadPhoto, deletePhoto } from '../../store/actions/profile';
 
-const ProfilePhotos = ({ setAlert, photos, uploadPhoto, id }) => {
+const ProfilePhotos = ({ setAlert, photos, uploadPhoto, deletePhoto, id }) => {
   const [file, setFile] = useState('');
+  const [index, setIndex] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [imgId, setImgId] = useState('');
   console.log(photos);
   console.log(id);
+  console.log(isOpen);
 
   const onChangeHandler = (event) => {
     setFile(event.target.files[0]);
@@ -32,12 +36,20 @@ const ProfilePhotos = ({ setAlert, photos, uploadPhoto, id }) => {
 
   return (
     <Fragment>
-      {photos.length !== 0 && (
+      {photos && photos.length !== 0 && (
         <div className={classes.Photos}>
           <h2>Photos</h2>
           <div className={classes.Gallery}>
-            {photos.map((img) => (
-              <div className={classes.ImgWrapper} key={img._id}>
+            {photos.map((img, index) => (
+              <div
+                className={classes.ImgWrapper}
+                key={img._id}
+                onClick={() => {
+                  setIsOpen(true);
+                  setIndex(index);
+                  setImgId(img._id);
+                }}
+              >
                 <img src={img.path} alt='img' />
               </div>
             ))}
@@ -61,6 +73,26 @@ const ProfilePhotos = ({ setAlert, photos, uploadPhoto, id }) => {
           <input disabled type='submit' className='Button' />
         )}
       </form>
+
+      {isOpen && (
+        <div className={classes.Lightbox}>
+          <div className={classes.ImgWrapper}>
+            <img src={photos[index].path} alt='alt' />
+          </div>
+          <button className='Button' onClick={() => setIsOpen(false)}>
+            <i className='fas fa-times'></i>
+          </button>
+          <button
+            onClick={() => {
+              deletePhoto(id, imgId);
+              setIsOpen(false);
+            }}
+            className='Button'
+          >
+            Delete
+          </button>
+        </div>
+      )}
     </Fragment>
   );
 };
@@ -71,4 +103,6 @@ ProfilePhotos.propTypes = {
   uploadPhoto: PropTypes.func.isRequired,
 };
 
-export default connect(null, { setAlert, uploadPhoto })(ProfilePhotos);
+export default connect(null, { setAlert, uploadPhoto, deletePhoto })(
+  ProfilePhotos
+);

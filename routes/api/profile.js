@@ -300,11 +300,11 @@ router.delete('/:id/:photo_id', auth, async (req, res) => {
 
     await profile.save();
 
-    res.json(profile.photos);
+    res.json(profile);
 
-    fs.unlink(`public/uploads/${photo.photo}`, (err) => {
+    fs.unlink(`client/public${photo.path}`, (err) => {
       if (err) console.error(err);
-      console.log(`${photo.photo} was deleted`);
+      console.log(`${photo.path} was deleted`);
     });
   } catch (err) {
     console.error(err.message);

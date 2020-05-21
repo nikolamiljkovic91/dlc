@@ -155,3 +155,27 @@ export const uploadPhoto = (id, photo) => async (dispatch) => {
     });
   }
 };
+
+// Delete photo
+
+export const deletePhoto = (id, photoId) => async (dispatch) => {
+  if (window.confirm('Are you sure you want to delete this photo?')) {
+    try {
+      const res = await axios.delete(`/api/profile/${id}/${photoId}`);
+
+      dispatch({
+        type: UPDATE_PROFILE,
+        payload: res.data,
+      });
+      dispatch(setAlert('Photo Removed', 'Danger'));
+    } catch (err) {
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: {
+          msg: err.response.statusText,
+          status: err.response.status,
+        },
+      });
+    }
+  }
+};

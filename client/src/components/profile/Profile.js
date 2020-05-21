@@ -22,6 +22,8 @@ const Profile = ({
     getProfile(match.params.id);
   });
 
+  console.log(profile);
+
   return loading ? (
     <Spinner />
   ) : (

@@ -1,6 +1,6 @@
 import './index.scss';
+import 'react-image-lightbox/style.css';
 import React, { Fragment, useEffect } from 'react';
-import './index.scss';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Landing from './components/layout/Landing/Landing';
 import Navbar from './components/layout/Navbar/Navbar';
