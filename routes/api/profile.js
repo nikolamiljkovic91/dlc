@@ -42,16 +42,56 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
+    // console.log(req.files);
     try {
+      // if (!req.files) {
+      //   return res.status(400).json({ msg: 'Please upload a file' });
+      // }
+      let file;
+
+      if (req.files) {
+        file = req.files.file;
+        // console.log(file);
+        // Make sure that image is a photo
+        if (!file.mimetype.startsWith('image')) {
+          return res.status(400).json({ msg: 'Please upload a image file' });
+        }
+
+        const maxFileSize = 1000000;
+
+        // Check file size
+        if (file.size > maxFileSize) {
+          return res
+            .status(400)
+            .json({ msg: 'Please upload a file less than 1MB' });
+        }
+
+        // Create custom file name
+        file.name = `photo_${req.user.id}${Date.now()}${
+          path.parse(file.name).ext
+        }`;
+
+        file.mv(`./client/public/uploads/${file.name}`, async (err) => {
+          return {
+            if(err) {
+              console.error(err);
+              return res.status(500).json({ msg: 'Problem with file upload' });
+            },
+          };
+        });
+      }
+
       const newProfile = new Profile({
         user: req.user.id,
-        profilePic: req.body.profilePic,
         dogName: req.body.dogName,
         dateOfBirth: req.body.dateOfBirth,
         gender: req.body.gender,
         about: req.body.about,
       });
+
+      if (file) {
+        newProfile.profilePic = `/uploads/${file.name}`;
+      }
 
       const profile = await newProfile.save();
 
@@ -77,7 +117,47 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
+    console.log(req);
+
     try {
+      // if (!req.files) {
+      //   return res.status(400).json({ msg: 'Please upload a file' });
+      // }
+
+      let file;
+
+      if (req.files) {
+        file = req.files.file;
+
+        // Make sure that image is a photo
+        if (!file.mimetype.startsWith('image')) {
+          return res.status(400).json({ msg: 'Please upload a image file' });
+        }
+
+        const maxFileSize = 1000000;
+
+        // Check file size
+        if (file.size > maxFileSize) {
+          return res
+            .status(400)
+            .json({ msg: 'Please upload a file less than 1MB' });
+        }
+
+        // Create custom file name
+        file.name = `photo_${req.user.id}${Date.now()}${
+          path.parse(file.name).ext
+        }`;
+
+        file.mv(`./client/public/uploads/${file.name}`, async (err) => {
+          return {
+            if(err) {
+              console.error(err);
+              return res.status(500).json({ msg: 'Problem with file upload' });
+            },
+          };
+        });
+      }
+
       let profile = await Profile.findById(req.params.id);
       if (!profile) {
         return res.status(400).json({ msg: 'Profile not found' });
@@ -88,11 +168,24 @@ router.put(
         return res.status(401).json({ msg: 'User not authorized' });
       }
 
+      if (req.files) {
+        fs.unlink(`client/public/${profile.profilePic}`, (err) => {
+          if (err) console.error(err);
+          console.log(`${profile.profilePic} was deleted`);
+        });
+      }
+
       profile = await Profile.findOneAndUpdate(
         { _id: req.params.id },
-        { $set: req.body },
+        {
+          $set: req.body,
+        },
         { new: true }
       );
+
+      if (file) {
+        profile.profilePic = `/uploads/${file.name}`;
+      }
 
       await profile.save();
 
