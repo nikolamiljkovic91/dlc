@@ -26,7 +26,6 @@ const ProfilePhotos = ({ setAlert, photos, uploadPhoto, deletePhoto, id }) => {
       if (file.size > 1000000) {
         setAlert('IMG size must be less than 1MB', 'Danger');
       } else {
-        console.log(file);
         uploadPhoto(id, formData);
         setAlert('Successfully uploaded', 'Success');
       }

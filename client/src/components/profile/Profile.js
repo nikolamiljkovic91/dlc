@@ -43,7 +43,14 @@ const Profile = ({
           </button>
         )}
         <div className={classes.Profile}>
-          <img src={Avatar} alt='' />
+          <div className={classes.ImgWrapper}>
+            {!profile.profilePic ? (
+              <img src={Avatar} alt='' />
+            ) : (
+              <img src={profile.profilePic} alt='img' />
+            )}
+          </div>
+
           <h1>{profile.dogName}</h1>
           {profile.dateOfBirth && (
             <p>

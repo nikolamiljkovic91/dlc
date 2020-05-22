@@ -18,6 +18,7 @@ const EditProfile = ({
     dateOfBirth: '',
     gender: '',
   });
+  const [file, setFile] = useState('');
 
   useEffect(() => {
     if (!profile) getProfile(match.params.id);
@@ -28,8 +29,13 @@ const EditProfile = ({
         dateOfBirth: moment(profile.dateOfBirth).format('YYYY-MM-DD'),
         gender: profile.gender,
       });
+      setFile({ file: profile.profilePic });
     }
   }, [loading, match.params.id, getProfile, profile]);
+
+  const fileInputHandler = (event) => {
+    setFile(event.target.files[0]);
+  };
 
   const inputHandler = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -39,6 +45,16 @@ const EditProfile = ({
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
+    let formData = new FormData();
+
+    formData.append('file', file);
+    formData.append('dogName', dogName);
+    formData.append('about', about);
+    formData.append('dateOfBirth', dateOfBirth);
+    formData.append('gender', gender);
+
+    console.log(formData);
+
     updateProfile(formData, match.params.id);
     history.push(`/profile/${match.params.id}`);
   };
@@ -88,16 +104,15 @@ const EditProfile = ({
           </select>
           <small>Choose dogs gender</small>
         </div>
-        {/* <div className='InputWrapper'>
+        <div className='InputWrapper'>
           <input
             type='file'
             placeholder='Profile Picture'
             name='profilePic'
-            value={profilePic}
-            onChange={inputHandler}
+            onChange={fileInputHandler}
           />
           <small>Upload profile picture of your dog (less than 1MB)</small>
-        </div> */}
+        </div>
         <input type='submit' className='Button' value='Submit' />
         <Link className='Button' to='/dashboard'>
           Go Back

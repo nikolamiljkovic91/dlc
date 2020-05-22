@@ -11,10 +11,14 @@
     background-color: $yellow-color;
     margin-right: 1.5rem;
 
-    img {
+    .ImgWrapper {
         width: 200px;
+        height: 200px;
         border-radius: 50%;
-        margin: 0.8rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
     }
 
     h2 {

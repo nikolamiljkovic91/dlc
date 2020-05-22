@@ -11,6 +11,11 @@ const CreateProfile = ({ createProfile, history }) => {
     dateOfBirth: '',
     gender: '',
   });
+  const [file, setFile] = useState('');
+
+  const fileInputHandler = (event) => {
+    setFile(event.target.files[0]);
+  };
 
   const inputHandler = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -20,6 +25,14 @@ const CreateProfile = ({ createProfile, history }) => {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
+    let formData = new FormData();
+
+    formData.append('file', file);
+    formData.append('dogName', dogName);
+    formData.append('about', about);
+    formData.append('dateOfBirth', dateOfBirth);
+    formData.append('gender', gender);
+
     createProfile(formData);
     history.push('/dashboard');
   };
@@ -69,16 +82,15 @@ const CreateProfile = ({ createProfile, history }) => {
           </select>
           <small>Choose dogs gender</small>
         </div>
-        {/* <div className='InputWrapper'>
+        <div className='InputWrapper'>
           <input
             type='file'
             placeholder='Profile Picture'
             name='profilePic'
-            value={profilePic}
-            onChange={inputHandler}
+            onChange={fileInputHandler}
           />
           <small>Upload profile picture of your dog (less than 1MB)</small>
-        </div> */}
+        </div>
         <input type='submit' className='Button' value='Submit' />
         <Link className='Button' to='/dashboard'>
           Go Back

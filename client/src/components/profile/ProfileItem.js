@@ -9,7 +9,13 @@ const ProfileItem = ({ profiles }) => {
     profiles.length > 0 &&
     profiles.map((profile) => (
       <div className={classes.ProfileItem} key={profile._id}>
-        <img src={Avatar} alt='img' />
+        <div className={classes.ImgWrapper}>
+          {!profile.profilePic ? (
+            <img src={Avatar} alt='img' />
+          ) : (
+            <img src={profile.profilePic} alt='img' />
+          )}
+        </div>
         <div>
           <h2>{profile.dogName}</h2>
           <Link to={`/profile/${profile._id}`} className='btn btn-primary'>
