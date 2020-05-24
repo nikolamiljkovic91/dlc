@@ -4,7 +4,6 @@ import * as classes from './ProfileItem.module.scss';
 import Avatar from '../../assets/images/dogAvatar.png';
 
 const ProfileItem = ({ profiles }) => {
-  console.log(profiles);
   return (
     profiles.length > 0 &&
     profiles.map((profile) => (
@@ -18,9 +17,7 @@ const ProfileItem = ({ profiles }) => {
         </div>
         <div>
           <h2>{profile.dogName}</h2>
-          <Link to={`/profile/${profile._id}`} className='btn btn-primary'>
-            View Profile
-          </Link>
+          <Link to={`/profile/${profile._id}`}>View Profile</Link>
         </div>
       </div>
     ))

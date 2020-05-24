@@ -83,12 +83,20 @@ const CreateProfile = ({ createProfile, history }) => {
           <small>Choose dogs gender</small>
         </div>
         <div className='InputWrapper'>
-          <input
-            type='file'
-            placeholder='Profile Picture'
-            name='profilePic'
-            onChange={fileInputHandler}
-          />
+          <label className='UploadButton'>
+            {file ? (
+              <i className='fas fa-check'></i>
+            ) : (
+              <i className='fas fa-plus'></i>
+            )}
+            <input
+              type='file'
+              placeholder='Profile Picture'
+              name='profilePic'
+              onChange={fileInputHandler}
+            />
+          </label>
+          {file && <small>{file.name}</small>}
           <small>Upload profile picture of your dog (less than 1MB)</small>
         </div>
         <input type='submit' className='Button' value='Submit' />

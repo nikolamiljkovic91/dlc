@@ -26,7 +26,10 @@ const EditProfile = ({
       setFormData({
         dogName: profile.dogName,
         about: profile.about,
-        dateOfBirth: moment(profile.dateOfBirth).format('YYYY-MM-DD'),
+        dateOfBirth:
+          profile.dateOfBirth === null
+            ? ''
+            : moment(profile.dateOfBirth).format('YYYY-MM-DD'),
         gender: profile.gender,
       });
       setFile({ file: profile.profilePic });
@@ -53,11 +56,20 @@ const EditProfile = ({
     formData.append('dateOfBirth', dateOfBirth);
     formData.append('gender', gender);
 
-    console.log(formData);
-
     updateProfile(formData, match.params.id);
     history.push(`/profile/${match.params.id}`);
   };
+
+  let fileText;
+
+  if (file) {
+    if (file.file !== profile.profilePic) {
+      fileText = <small>{file.name}</small>;
+    } else {
+      fileText = <small>{file.file.slice(9)}</small>;
+    }
+  }
+
   return (
     <section className='ProfileForm'>
       <h1>Edit Profile</h1>
@@ -105,12 +117,21 @@ const EditProfile = ({
           <small>Choose dogs gender</small>
         </div>
         <div className='InputWrapper'>
-          <input
-            type='file'
-            placeholder='Profile Picture'
-            name='profilePic'
-            onChange={fileInputHandler}
-          />
+          <label className='UploadButton'>
+            {file ? (
+              <i className='fas fa-check'></i>
+            ) : (
+              <i className='fas fa-plus'></i>
+            )}
+
+            <input
+              type='file'
+              placeholder='Profile Picture'
+              name='profilePic'
+              onChange={fileInputHandler}
+            />
+          </label>
+          {fileText}
           <small>Upload profile picture of your dog (less than 1MB)</small>
         </div>
         <input type='submit' className='Button' value='Submit' />

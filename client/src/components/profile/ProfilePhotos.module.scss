@@ -46,27 +46,6 @@
     align-items: center;
     margin-top: 2rem;
 
-    .UploadButton {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 20px;
-        border-radius: 50%;
-        background-color: $yellow-color;
-        padding: 0.7rem 1.2rem;
-        margin-bottom: 1rem;
-        cursor: pointer;
-
-        i {
-            color: $dark-color;
-        }
-
-        input[type='file'] {
-            display: none;
-        }
-    }
-
     input[type='submit'] {
         margin-top: 1rem;
         cursor: pointer;
@@ -75,6 +54,14 @@
     input:disabled {
         opacity: 0.3;
         cursor: not-allowed;
+    }
+
+    small:first-of-type {
+        margin-bottom: 0.3rem;
+    }
+
+    small {
+        color: $yellow-color;
     }
 }
 

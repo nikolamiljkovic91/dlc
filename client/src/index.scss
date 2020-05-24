@@ -39,6 +39,10 @@ img {
   width: 100%;
 }
 
+.fa-check {
+  color: $success-color !important;
+}
+
 input[type='text'],
 input[type='email'],
 input[type='password'],
@@ -135,6 +139,27 @@ button {
     display: block;
     margin-top: 0.3rem;
     color: $yellow-color;
+  }
+}
+
+.UploadButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  border-radius: 50%;
+  background-color: $yellow-color;
+  padding: 0.7rem 1.2rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+
+  i {
+    color: $dark-color;
+  }
+
+  input[type='file'] {
+    display: none;
   }
 }
 

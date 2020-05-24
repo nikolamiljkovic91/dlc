@@ -10,9 +10,6 @@ const ProfilePhotos = ({ setAlert, photos, uploadPhoto, deletePhoto, id }) => {
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [imgId, setImgId] = useState('');
-  console.log(photos);
-  console.log(id);
-  console.log(isOpen);
 
   const onChangeHandler = (event) => {
     setFile(event.target.files[0]);
@@ -56,8 +53,12 @@ const ProfilePhotos = ({ setAlert, photos, uploadPhoto, deletePhoto, id }) => {
         </div>
       )}
       <form onSubmit={onSubmitHandler} className={classes.Wrapper}>
-        <label className={classes.UploadButton}>
-          <i className='fas fa-plus'></i>
+        <label className='UploadButton'>
+          {file ? (
+            <i className='fas fa-check'></i>
+          ) : (
+            <i className='fas fa-plus'></i>
+          )}
           <input
             type='file'
             name='uploadPicture'
@@ -65,6 +66,7 @@ const ProfilePhotos = ({ setAlert, photos, uploadPhoto, deletePhoto, id }) => {
             onChange={onChangeHandler}
           />
         </label>
+        {file && <small>{file.name}</small>}
         <small>Upload picture of your dog (less than 1MB)</small>
         {file ? (
           <input type='submit' className='Button' />

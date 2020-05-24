@@ -19,8 +19,6 @@ const Dashboard = ({
     getProfiles();
   }, [getAuthUser, getProfiles]);
 
-  console.log(profile.profiles);
-
   return loading ? (
     <Spinner />
   ) : (

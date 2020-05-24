@@ -1,5 +1,5 @@
 .Profiles {
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+    display: grid;
+    grid-gap: 0.7rem;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 }

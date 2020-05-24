@@ -51,7 +51,6 @@ router.post(
 
       if (req.files) {
         file = req.files.file;
-        // console.log(file);
         // Make sure that image is a photo
         if (!file.mimetype.startsWith('image')) {
           return res.status(400).json({ msg: 'Please upload a image file' });
@@ -117,7 +116,7 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    console.log(req);
+    console.log(req.body);
 
     try {
       // if (!req.files) {
@@ -168,6 +167,7 @@ router.put(
         return res.status(401).json({ msg: 'User not authorized' });
       }
 
+      // Delete picture from /uploads folder
       if (req.files) {
         fs.unlink(`client/public/${profile.profilePic}`, (err) => {
           if (err) console.error(err);
@@ -177,9 +177,7 @@ router.put(
 
       profile = await Profile.findOneAndUpdate(
         { _id: req.params.id },
-        {
-          $set: req.body,
-        },
+        { $set: req.body },
         { new: true }
       );
 
@@ -305,62 +303,62 @@ router.put('/:id/photo', auth, async (req, res) => {
   }
 });
 
-//@route    PUT api/profile/:id/profilePic
-//@desc     Upload profile picture
-//@access   Private access
+// //@route    PUT api/profile/:id/profilePic
+// //@desc     Upload profile picture
+// //@access   Private access
 
-router.put('/:id/profilePic', auth, async (req, res) => {
-  try {
-    const profile = await Profile.findById(req.params.id);
+// router.put('/:id/profilePic', auth, async (req, res) => {
+//   try {
+//     const profile = await Profile.findById(req.params.id);
 
-    if (!profile) {
-      return res.status(400).json({ msg: 'Profile not found' });
-    }
+//     if (!profile) {
+//       return res.status(400).json({ msg: 'Profile not found' });
+//     }
 
-    if (!req.files) {
-      return res.status(400).json({ msg: 'Please upload a file' });
-    }
+//     if (!req.files) {
+//       return res.status(400).json({ msg: 'Please upload a file' });
+//     }
 
-    const file = req.files.file;
+//     const file = req.files.file;
 
-    // Make sure that image is a photo
-    if (!file.mimetype.startsWith('image')) {
-      return res.status(400).json({ msg: 'Please upload a image file' });
-    }
+//     // Make sure that image is a photo
+//     if (!file.mimetype.startsWith('image')) {
+//       return res.status(400).json({ msg: 'Please upload a image file' });
+//     }
 
-    const maxFileSize = 1000000;
+//     const maxFileSize = 1000000;
 
-    // Check file size
-    if (file.size > maxFileSize) {
-      return res
-        .status(400)
-        .json({ msg: 'Please upload a file less than 1MB' });
-    }
+//     // Check file size
+//     if (file.size > maxFileSize) {
+//       return res
+//         .status(400)
+//         .json({ msg: 'Please upload a file less than 1MB' });
+//     }
 
-    // Create custom file name
-    file.name = `photo_${profile.id}${Date.now()}${path.parse(file.name).ext}`;
+//     // Create custom file name
+//     file.name = `photo_${profile.id}${Date.now()}${path.parse(file.name).ext}`;
 
-    file.mv(`./public/uploads/${file.name}`, async (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ msg: 'Problem with file upload' });
-      }
+//     file.mv(`./public/uploads/${file.name}`, async (err) => {
+//       if (err) {
+//         console.error(err);
+//         return res.status(500).json({ msg: 'Problem with file upload' });
+//       }
 
-      const updated = await Profile.findByIdAndUpdate(
-        req.params.id,
-        {
-          profilePic: file.name,
-        },
-        { new: true }
-      );
+//       const updated = await Profile.findByIdAndUpdate(
+//         req.params.id,
+//         {
+//           profilePic: file.name,
+//         },
+//         { new: true }
+//       );
 
-      res.json(updated);
-    });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
+//       res.json(updated);
+//     });
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send('Server Error');
+//   }
+// });
 
 //@route    DELETE api/profile/:id/:photo_id
 //@desc     Delete photo

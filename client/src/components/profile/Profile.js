@@ -42,6 +42,9 @@ const Profile = ({
             Delete Profile
           </button>
         )}
+        <Link to='/' className='Button'>
+          Go Back
+        </Link>
         <div className={classes.Profile}>
           <div className={classes.ImgWrapper}>
             {!profile.profilePic ? (
