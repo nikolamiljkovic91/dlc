@@ -6,8 +6,9 @@ import Login from '../components/auth/Login';
 import Alert from '../components/layout/Alert';
 import Dashboard from '../components/dashboard/Dashboard';
 import CreateProfile from '../components/profile/CreateProfile';
-import Profile from '../components/profile/Profile';
+import Profile from '../components/profile/Profile/Profile';
 import EditProfile from '../components/profile/EditProfile';
+import Forum from '../components/forum/Forum';
 
 const Routes = () => {
   return (
@@ -29,6 +30,7 @@ const Routes = () => {
             path='/edit-profile/:id'
             component={EditProfile}
           />
+          <PrivateRoute exact path='/forum' component={Forum} />
         </Switch>
       </section>
     </div>

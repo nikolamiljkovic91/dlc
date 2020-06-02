@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import * as classes from './ProfileItem.module.scss';
-import Avatar from '../../assets/images/dogAvatar.png';
+import Avatar from '../../../assets/images/dogAvatar.png';
 
 const ProfileItem = ({ profiles }) => {
   return (

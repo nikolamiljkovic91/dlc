@@ -4,12 +4,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { updateProfile, getProfile } from '../../store/actions/profile';
 import moment from 'moment';
+import { setAlert } from '../../store/actions/alert';
 
 const EditProfile = ({
   getProfile,
   updateProfile,
   match,
   history,
+  setAlert,
   profile: { loading, profile },
 }) => {
   const [formData, setFormData] = useState({
@@ -32,12 +34,18 @@ const EditProfile = ({
             : moment(profile.dateOfBirth).format('YYYY-MM-DD'),
         gender: profile.gender,
       });
-      setFile({ file: profile.profilePic });
+      if (profile.profilePic) {
+        setFile({ file: profile.profilePic });
+      }
     }
   }, [loading, match.params.id, getProfile, profile]);
 
   const fileInputHandler = (event) => {
-    setFile(event.target.files[0]);
+    if (event.target.files[0] && event.target.files[0].size > 1000000) {
+      setAlert('Image must be less than 1MB', 'Danger');
+    } else {
+      setFile(event.target.files[0]);
+    }
   };
 
   const inputHandler = (event) => {
@@ -62,7 +70,7 @@ const EditProfile = ({
 
   let fileText;
 
-  if (file) {
+  if (file && profile.profilePic) {
     if (file.file !== profile.profilePic) {
       fileText = <small>{file.name}</small>;
     } else {
@@ -70,6 +78,7 @@ const EditProfile = ({
     }
   }
 
+  console.log(file);
   return (
     <section className='ProfileForm'>
       <h1>Edit Profile</h1>
@@ -153,6 +162,8 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
 });
 
-export default connect(mapStateToProps, { updateProfile, getProfile })(
-  withRouter(EditProfile)
-);
+export default connect(mapStateToProps, {
+  updateProfile,
+  getProfile,
+  setAlert,
+})(withRouter(EditProfile));

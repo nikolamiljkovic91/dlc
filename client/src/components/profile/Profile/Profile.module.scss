@@ -1,4 +1,4 @@
-@import '../../colors.scss';
+@import '../../../colors.scss';
 
 .Profile {
   display: flex;
@@ -46,6 +46,7 @@
   p {
     color: $dark-color;
     margin-bottom: 1rem;
+    font-size: 1.2rem;
   }
 }
 

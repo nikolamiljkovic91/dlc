@@ -12,13 +12,18 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
       <li>
         <Link to='/dashboard'>
           <i className='fas fa-user'></i>{' '}
-          <span className={classes.HideSmall}>Dashboard</span>
+          <span className='HideSmall'>Dashboard</span>
+        </Link>
+      </li>
+      <li>
+        <Link to='/forum'>
+          <span>Forum</span>
         </Link>
       </li>
       <li>
         <Link onClick={() => logout()} to='/'>
           <i className='fas fa-sign-out-alt'></i>{' '}
-          <span className={classes.HideSmall}>Logout</span>
+          <span className='HideSmall'>Logout</span>
         </Link>
       </li>
     </ul>

@@ -19,16 +19,18 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    try {
-      const user = await User.findById(req.user.id).select('-password');
+    const user = await User.findOne({ _id: req.user.id }).populate('profiles', [
+      'profilePic',
+    ]);
 
+    try {
       const createPost = new Post({
-        user: req.user.id,
-        username: user.username,
+        user: user,
         text: req.body.text,
       });
 
       const post = await createPost.save();
+
       res.json(post);
     } catch (err) {
       console.error(err.message);
@@ -43,7 +45,12 @@ router.post(
 
 router.get('/', auth, async (req, res) => {
   try {
-    const posts = await Post.find().sort({ date: -1 });
+    const posts = await Post.find()
+      .populate({
+        path: 'user',
+        populate: { path: 'profiles', select: 'profilePic' },
+      })
+      .sort({ date: -1 });
 
     res.json(posts);
   } catch (err) {
@@ -95,7 +102,7 @@ router.get('/:id', auth, async (req, res) => {
 
 router.delete('/:id', auth, async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const post = await await Post.findById(req.params.id);
 
     if (!post) {
       return res.status(404).json({ msg: 'Post not found' });

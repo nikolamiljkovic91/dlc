@@ -2,8 +2,8 @@ import React, { Fragment, useState } from 'react';
 import classes from './ProfilePhotos.module.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { setAlert } from '../../store/actions/alert';
-import { uploadPhoto, deletePhoto } from '../../store/actions/profile';
+import { setAlert } from '../../../store/actions/alert';
+import { uploadPhoto, deletePhoto } from '../../../store/actions/profile';
 
 const ProfilePhotos = ({ setAlert, photos, uploadPhoto, deletePhoto, id }) => {
   const [file, setFile] = useState('');

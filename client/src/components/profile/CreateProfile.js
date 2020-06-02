@@ -3,8 +3,9 @@ import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createProfile } from '../../store/actions/profile';
+import { setAlert } from '../../store/actions/alert';
 
-const CreateProfile = ({ createProfile, history }) => {
+const CreateProfile = ({ createProfile, history, setAlert }) => {
   const [formData, setFormData] = useState({
     dogName: '',
     about: '',
@@ -12,6 +13,7 @@ const CreateProfile = ({ createProfile, history }) => {
     gender: '',
   });
   const [file, setFile] = useState('');
+  console.log(file);
 
   const fileInputHandler = (event) => {
     setFile(event.target.files[0]);
@@ -33,8 +35,12 @@ const CreateProfile = ({ createProfile, history }) => {
     formData.append('dateOfBirth', dateOfBirth);
     formData.append('gender', gender);
 
-    createProfile(formData);
-    history.push('/dashboard');
+    if (file && file.size > 1000000) {
+      setAlert('Image must be less than 1MB', 'Danger');
+    } else {
+      createProfile(formData);
+      history.push('/dashboard');
+    }
   };
   return (
     <section className='ProfileForm'>
@@ -112,4 +118,6 @@ CreateProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
 };
 
-export default connect(null, { createProfile })(withRouter(CreateProfile));
+export default connect(null, { createProfile, setAlert })(
+  withRouter(CreateProfile)
+);

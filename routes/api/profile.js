@@ -42,6 +42,7 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+    console.log(req.user);
     // console.log(req.files);
     try {
       // if (!req.files) {
@@ -93,6 +94,11 @@ router.post(
       }
 
       const profile = await newProfile.save();
+
+      await User.updateOne(
+        { _id: req.user.id },
+        { $addToSet: { profiles: profile._id } }
+      );
 
       res.json(profile);
     } catch (err) {
@@ -202,6 +208,7 @@ router.put(
 router.get('/:id', auth, async (req, res) => {
   try {
     const profile = await Profile.findById(req.params.id);
+    console.log(profile);
 
     if (!profile) {
       return res.status(404).json({ msg: 'Profile not found' });

@@ -5,6 +5,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  profiles: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'profile',
+    },
+  ],
   email: {
     type: String,
     required: true,
@@ -13,6 +19,7 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+    select: false,
   },
   date: {
     type: Date,

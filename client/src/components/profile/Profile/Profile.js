@@ -1,14 +1,13 @@
-import '../../index.scss';
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import * as classes from './Profile.module.scss';
-import Avatar from '../../assets/images/dogAvatar.png';
+import Avatar from '../../../assets/images/dogAvatar.png';
 import { connect } from 'react-redux';
-import { getProfile, deleteProfile } from '../../store/actions/profile';
-import Spinner from '../layout/Spinner/Spinner';
+import { getProfile, deleteProfile } from '../../../store/actions/profile';
+import Spinner from '../../layout/Spinner/Spinner';
 import Moment from 'react-moment';
-import ProfilePhotos from './ProfilePhotos';
+import ProfilePhotos from '../ProfilePhotos/ProfilePhotos';
 
 const Profile = ({
   getProfile,
