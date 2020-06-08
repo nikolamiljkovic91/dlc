@@ -41,11 +41,7 @@ const EditProfile = ({
   }, [loading, match.params.id, getProfile, profile]);
 
   const fileInputHandler = (event) => {
-    if (event.target.files[0] && event.target.files[0].size > 1000000) {
-      setAlert('Image must be less than 1MB', 'Danger');
-    } else {
-      setFile(event.target.files[0]);
-    }
+    setFile(event.target.files[0]);
   };
 
   const inputHandler = (event) => {
@@ -64,8 +60,12 @@ const EditProfile = ({
     formData.append('dateOfBirth', dateOfBirth);
     formData.append('gender', gender);
 
-    updateProfile(formData, match.params.id);
-    history.push(`/profile/${match.params.id}`);
+    if (file && file.size > 1000000) {
+      setAlert('Image must be less than 1MB', 'Danger');
+    } else {
+      updateProfile(formData, match.params.id);
+      history.push(`/profile/${match.params.id}`);
+    }
   };
 
   let fileText;
@@ -76,6 +76,8 @@ const EditProfile = ({
     } else {
       fileText = <small>{file.file.slice(9)}</small>;
     }
+  } else if (file && !profile.profilePic) {
+    fileText = <small>{file.name}</small>;
   }
 
   console.log(file);

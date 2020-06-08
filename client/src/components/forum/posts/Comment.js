@@ -3,33 +3,34 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
-import * as classes from './PostItem.module.scss';
-import Img from '../../../../assets/images/dogAvatar.png';
-import Spinner from '../../../layout/Spinner/Spinner';
+import Img from '../../../assets/images/dogAvatar.png';
 import {
-  likePost,
-  dislikePost,
-  deletePost,
-} from '../../../../store/actions/post';
+  likeComment,
+  dislikeComment,
+  deleteComment,
+} from '../../../store/actions/post';
+import Spinner from '../../layout/Spinner/Spinner';
 
-const Post = ({
+const Comment = ({
   auth,
-  likePost,
-  dislikePost,
-  deletePost,
-  post: { _id, text, likes, dislikes, comments, date, user },
+  postId,
+  likeComment,
+  dislikeComment,
+  deleteComment,
+  comment: { _id, text, likes, dislikes, date, user },
 }) => {
+  console.log(user);
   return (
-    <section className={classes.Post}>
+    <section className='PostCommentItem'>
       <div>
         {typeof user === 'string' && !user.profiles ? (
           <Spinner />
         ) : (
-          <Link to={`/post/${_id}`}>
+          <Link to={`/profile/${user._id}`}>
             <h4>@{user.username}</h4>
             <div>
               {user.profiles.slice(0, 3).map((profile) => (
-                <div className={classes.ImgWrapper} key={profile._id}>
+                <div className='ImgWrapper' key={profile._id}>
                   <img src={profile.profilePic || Img} alt='img' />
                 </div>
               ))}
@@ -37,7 +38,7 @@ const Post = ({
           </Link>
         )}
       </div>
-      <div className={classes.PostContent}>
+      <div className='PostCommentContent'>
         <p>{text}</p>
         <p>
           Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
@@ -45,11 +46,11 @@ const Post = ({
         <button
           className={
             !likes.find((like) => like.user === auth.user._id)
-              ? `${classes.PostButtons}`
-              : `${classes.PostButtons} ${classes.LikeColor}`
+              ? 'PostCommentButtons'
+              : 'PostCommentButtons LikeColor'
           }
           onClick={() => {
-            likePost(_id);
+            likeComment(postId, _id);
           }}
         >
           <i className='fas fa-heart'></i>
@@ -58,24 +59,20 @@ const Post = ({
         <button
           className={
             !dislikes.find((dislike) => dislike.user === auth.user._id)
-              ? `${classes.PostButtons}`
-              : `${classes.PostButtons} ${classes.DislikeColor}`
+              ? 'PostCommentButtons'
+              : 'PostCommentButtons DislikeColor'
           }
           onClick={() => {
-            dislikePost(_id);
+            dislikeComment(postId, _id);
           }}
         >
           <i className='fas fa-heart-broken'></i>
           {dislikes.length > 0 && <span> {dislikes.length}</span>}
         </button>
-        <Link to={`/post/${_id}`} className={classes.PostButtons}>
-          <i className='fas fa-comment'></i>
-          {comments.length > 0 && <span> {comments.length}</span>}
-        </Link>
         {!auth.loading && user._id === auth.user._id && (
           <button
-            className={classes.PostButtons}
-            onClick={() => deletePost(_id)}
+            className='PostCommentButtons'
+            onClick={() => deleteComment(postId, _id)}
           >
             <i className='fas fa-trash-alt'></i>
           </button>
@@ -85,11 +82,8 @@ const Post = ({
   );
 };
 
-Post.propTypes = {
+Comment.propTypes = {
   auth: PropTypes.object,
-  likePost: PropTypes.func.isRequired,
-  dislikePost: PropTypes.func.isRequired,
-  deletePost: PropTypes.func.isRequired,
   post: PropTypes.object,
 };
 
@@ -97,6 +91,8 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { likePost, dislikePost, deletePost })(
-  Post
-);
+export default connect(mapStateToProps, {
+  likeComment,
+  dislikeComment,
+  deleteComment,
+})(Comment);

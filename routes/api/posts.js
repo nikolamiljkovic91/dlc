@@ -50,6 +50,10 @@ router.get('/', auth, async (req, res) => {
         path: 'user',
         populate: { path: 'profiles', select: 'profilePic' },
       })
+      .populate({
+        path: 'comments.user',
+        populate: { path: 'profiles', select: 'profilePic' },
+      })
       .sort({ date: -1 });
 
     res.json(posts);
@@ -80,7 +84,15 @@ router.get('/user_posts', auth, async (req, res) => {
 
 router.get('/:id', auth, async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id)
+      .populate({
+        path: 'user',
+        populate: { path: 'profiles', select: 'profilePic' },
+      })
+      .populate({
+        path: 'comments.user',
+        populate: { path: 'profiles', select: 'profilePic' },
+      });
 
     if (!post) {
       return res.status(400).json({ msg: 'Post not found' });
@@ -202,11 +214,16 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
     try {
-      const user = await User.findById(req.user.id);
-      const post = await Post.findById(req.params.post_id);
+      const user = await User.findById(req.user.id).populate('profiles', [
+        'profilePic',
+      ]);
+      const post = await Post.findById(req.params.post_id).populate({
+        path: 'comments.user',
+        populate: { path: 'profiles', select: 'profilePic' },
+      });
 
       const newComment = {
-        user: req.user.id,
+        user: user,
         text: req.body.text,
         username: user.username,
       };
@@ -223,7 +240,7 @@ router.put(
   }
 );
 
-//@route    DELETE api/posts/comment/:id
+//@route    DELETE api/posts/comment/:post_id/:comment_id
 //@desc     Delete comment
 //@access   Private
 
@@ -254,14 +271,14 @@ router.delete('/comment/:post_id/:comment_id', auth, async (req, res) => {
 
     await post.save();
 
-    res.json(post.comments);
+    res.json({ msg: 'Comment removed' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
 
-//@route    PUT api/posts/like/comment/:comment_id
+//@route    PUT api/posts/like/:post_id/:comment_id
 //@desc     Like comment
 //@access   Private
 
@@ -296,14 +313,14 @@ router.put('/like/:post_id/:comment_id', auth, async (req, res) => {
 
     await post.save();
 
-    res.json(post);
+    res.json(comment.likes);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
 
-//@route    PUT api/posts/dislike/comment/:comment_id
+//@route    PUT api/posts/dislike/:post_id/:comment_id
 //@desc     Dislike comment
 //@access   Private
 
@@ -339,7 +356,7 @@ router.put('/dislike/:post_id/:comment_id', auth, async (req, res) => {
 
     await post.save();
 
-    res.json(post);
+    res.json(comment.dislikes);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner/Spinner';
-import PostItem from './posts/PostItem/PostItem';
-import CreatePost from './posts/CreatePost/CreatePost';
+import PostItem from './posts/PostItem';
+import CreatePost from './posts/CreatePost';
 import { getAllPosts } from '../../store/actions/post';
 
 const Forum = ({ getAllPosts, post: { posts, loading } }) => {

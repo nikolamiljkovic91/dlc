@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import * as classes from './CreatePost.module.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createPost } from '../../../../store/actions/post';
+import { createPost } from '../../../store/actions/post';
 
 const CreatePost = ({ createPost }) => {
   const [text, setText] = useState('');
@@ -17,7 +16,7 @@ const CreatePost = ({ createPost }) => {
     setText('');
   };
   return (
-    <section className={classes.CreatePost}>
+    <section className='PostCommentForm'>
       <div>
         <h3>Say Something...</h3>
       </div>

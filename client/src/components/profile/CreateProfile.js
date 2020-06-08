@@ -13,7 +13,6 @@ const CreateProfile = ({ createProfile, history, setAlert }) => {
     gender: '',
   });
   const [file, setFile] = useState('');
-  console.log(file);
 
   const fileInputHandler = (event) => {
     setFile(event.target.files[0]);
