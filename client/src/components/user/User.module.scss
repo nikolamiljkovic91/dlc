@@ -1,0 +1,28 @@
+@import '../../colors.scss';
+
+.User {
+
+    h1 {
+        font-size: 3rem;
+        color: $yellow-color;
+        margin-bottom: 2rem;
+        text-align: center;
+
+        &:nth-of-type(2) {
+            font-size: 2rem;
+            color: $yellow-color;
+            text-align: start;
+            margin-bottom: 1rem;
+        }
+    }
+
+
+    .UserProfiles {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        padding: 1rem;
+        border: 1px solid $yellow-color;
+        margin: 1rem 0;
+    }
+}

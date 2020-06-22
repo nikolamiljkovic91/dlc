@@ -3,7 +3,9 @@ import {
   LOGIN_SUCCESS,
   AUTH_ERROR,
   USER_LOADED,
+  GET_USER,
   LOGOUT,
+  USER_ERROR,
 } from './types';
 import axios from 'axios';
 import { setAlert } from './alert';

@@ -21,7 +21,7 @@ const PostItem = ({
         {typeof user === 'string' && !user.profiles ? (
           <Spinner />
         ) : (
-          <Link to={`/profile/${user._id}`}>
+          <Link to={`/user/${user._id}`}>
             <h4>@{user.username}</h4>
             <div>
               {user.profiles.slice(0, 3).map((profile) => (
@@ -34,7 +34,9 @@ const PostItem = ({
         )}
       </div>
       <div className='PostCommentContent'>
-        <p>{text}</p>
+        <Link to={`/post/${_id}`}>
+          <p>{text}</p>
+        </Link>
         <p>
           Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
         </p>
@@ -66,7 +68,14 @@ const PostItem = ({
               <i className='fas fa-heart-broken'></i>
               {dislikes.length > 0 && <span> {dislikes.length}</span>}
             </button>
-            <Link to={`/post/${_id}`} className='PostCommentButtons'>
+            <Link
+              to={`/post/${_id}`}
+              className={
+                !comments.length > 0
+                  ? 'PostCommentButtons'
+                  : 'PostCommentButtons CommentColor'
+              }
+            >
               <i className='fas fa-comment'></i>
               {comments.length > 0 && <span> {comments.length}</span>}
             </Link>
@@ -94,13 +103,15 @@ PostItem.propTypes = {
   likePost: PropTypes.func.isRequired,
   dislikePost: PropTypes.func.isRequired,
   deletePost: PropTypes.func.isRequired,
-  // post: PropTypes.object,
+  post: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { likePost, dislikePost, deletePost })(
-  PostItem
-);
+export default connect(mapStateToProps, {
+  likePost,
+  dislikePost,
+  deletePost,
+})(PostItem);

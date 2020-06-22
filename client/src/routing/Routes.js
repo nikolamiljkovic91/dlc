@@ -10,6 +10,7 @@ import Profile from '../components/profile/Profile/Profile';
 import EditProfile from '../components/profile/EditProfile';
 import Forum from '../components/forum/Forum';
 import Post from '../components/forum/posts/Post';
+import User from '../components/user/User';
 
 const Routes = () => {
   return (
@@ -33,6 +34,7 @@ const Routes = () => {
           />
           <PrivateRoute exact path='/forum' component={Forum} />
           <PrivateRoute exact path='/post/:id' component={Post} />
+          <PrivateRoute exact path='/user/:id' component={User} />
         </Switch>
       </section>
     </div>

@@ -11,6 +11,7 @@ import {
   LIKE_COMMENT,
   DISLIKE_COMMENT,
   DELETE_COMMENT,
+  CLEAR_USER,
 } from './types';
 import axios from 'axios';
 import { setAlert } from './alert';
@@ -20,6 +21,10 @@ import { setAlert } from './alert';
 export const getAllPosts = () => async (dispatch) => {
   try {
     const res = await axios.get('/api/posts');
+
+    dispatch({
+      type: CLEAR_USER,
+    });
     dispatch({
       type: GET_POSTS,
       payload: res.data,
@@ -41,6 +46,9 @@ export const getPost = (id) => async (dispatch) => {
   try {
     const res = await axios.get(`/api/posts/${id}`);
 
+    dispatch({
+      type: CLEAR_USER,
+    });
     dispatch({
       type: GET_POST,
       payload: res.data,

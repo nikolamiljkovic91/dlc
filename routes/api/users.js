@@ -91,8 +91,28 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
+//@route    GET api/users/:id
+//@desc     Get user by id
+//@access   Private access
+
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).populate('profiles');
+    console.log(user);
+
+    if (!user) {
+      return res.status(401).json({ msg: 'User not found' });
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 //@route    DELETE api/users
-//@desc     Delete users
+//@desc     Delete user
 //@access   Private access
 
 router.delete('/', auth, async (req, res) => {

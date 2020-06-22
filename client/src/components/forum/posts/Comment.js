@@ -26,7 +26,7 @@ const Comment = ({
         {typeof user === 'string' && !user.profiles ? (
           <Spinner />
         ) : (
-          <Link to={`/profile/${user._id}`}>
+          <Link to={`/user/${user._id}`}>
             <h4>@{user.username}</h4>
             <div>
               {user.profiles.slice(0, 3).map((profile) => (

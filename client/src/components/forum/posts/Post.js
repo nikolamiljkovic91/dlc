@@ -13,9 +13,6 @@ const Post = ({ match, post: { post, loading }, getPost }) => {
     getPost(match.params.id);
   }, [getPost, match.params.id]);
 
-  {
-    post && console.log(post);
-  }
   return loading || post === null ? (
     <Spinner />
   ) : (
