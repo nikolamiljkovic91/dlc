@@ -11,12 +11,12 @@ const UserSchema = new mongoose.Schema({
       ref: 'profile',
     },
   ],
-  posts: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'post',
-    },
-  ],
+  // posts: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: 'post',
+  //   },
+  // ],
   email: {
     type: String,
     required: true,
